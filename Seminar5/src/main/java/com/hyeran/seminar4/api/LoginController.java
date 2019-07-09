@@ -34,10 +34,6 @@ public class LoginController {
      * @return ResponseEntity
      */
     @ApiOperation(value = "로그인", notes = "성공시 jwt 토큰을 헤더에 넣어서 반환합니다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
-            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query", defaultValue = "")
-    })
     @ApiResponses({
             @ApiResponse(code = 200, message = "로그인 성공"),
             @ApiResponse(code = 500, message = "내부 서버 에러")

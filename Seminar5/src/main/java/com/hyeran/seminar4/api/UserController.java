@@ -30,12 +30,12 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @ApiOperation(value = "모든 회원 조회", notes = "성공시 모든 회원 리스트를 반환합니다.")
+    @ApiOperation(value = "회원 조회", notes = "성공시 회원 리스트를 반환합니다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "name", value = "이름", dataType = "string", paramType = "query", defaultValue = ""),
     })
     @ApiResponses({
-            @ApiResponse(code = 200, message = "모든 회원 조회 성공"),
+            @ApiResponse(code = 200, message = "회원 조회 성공"),
             @ApiResponse(code = 500, message = "내부 서버 에러")
     })
     @Auth
@@ -101,6 +101,7 @@ public class UserController {
     @Auth
     @PutMapping("/{userIdx}")
     public ResponseEntity update(
+            @RequestHeader("Authorization") final String header,
             @PathVariable(value = "userIdx") final int userIdx,
             SignUpReq signUpReq,
             @RequestPart(value = "profile", required = false) final MultipartFile profile) {
@@ -119,14 +120,16 @@ public class UserController {
      * @param userIdx 회원 고유 번호
      * @return ResponseEntity
      */
-    @ApiOperation(value = "회원 삭제")
+    @ApiOperation(value = "회원 탈퇴")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 삭제 성공"),
+            @ApiResponse(code = 200, message = "회원 탈퇴 성공"),
             @ApiResponse(code = 500, message = "내부 서버 에러")
     })
     @Auth
     @DeleteMapping("/{userIdx}")
-    public ResponseEntity deleteUser(@PathVariable("userIdx") final int userIdx) {
+    public ResponseEntity deleteUser(
+            @RequestHeader("Authorization") final String header,
+            @PathVariable("userIdx") final int userIdx) {
         try {
             return new ResponseEntity<>(userService.deleteByUserIdx(userIdx), HttpStatus.OK);
         }catch (Exception e) {
