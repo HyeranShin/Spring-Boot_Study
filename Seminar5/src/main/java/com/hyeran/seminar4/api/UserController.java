@@ -69,16 +69,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "내부 서버 에러")
     })
     @PostMapping("")
-    public ResponseEntity signUp(SignUpReq signUpReq, @RequestPart(value = "profile", required = false) final MultipartFile profile) {
+    public ResponseEntity signUp(SignUpReq signUpReq) {
         log.error("signUp 함수 진입");
         try {
-            log.error("signUp 함수 내 try 진입");
-            //파일을 signUpReq에 저장
-            if(profile != null) {
-                log.error("사진 파일 있음");
-                signUpReq.setProfile(profile);
-            }
-            else log.error("사진 파일 없음");
             return new ResponseEntity<>(userService.save(signUpReq), HttpStatus.OK);
         }catch (Exception e) {
             log.error(e.getMessage());

@@ -12,6 +12,8 @@ public class SignUpReq {
 
     //프로필 사진 객체
     private MultipartFile profile;
+    //파일 여러 개 받을 때
+    //private MultipartFile[] profile;
     //프로필 사진 저장 url 주소
     private String profileUrl;
 }
