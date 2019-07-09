@@ -1,9 +1,11 @@
 package com.hyeran.seminar4.api;
 
+import com.hyeran.seminar4.dto.User;
 import com.hyeran.seminar4.model.SignUpReq;
 import com.hyeran.seminar4.service.JwtService;
 import com.hyeran.seminar4.service.UserService;
 import com.hyeran.seminar4.utils.auth.Auth;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,7 @@ import static com.hyeran.seminar4.model.DefaultRes.FAIL_DEFAULT_RES;
 
 @Slf4j
 @RestController
-@RequestMapping("users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -28,6 +30,14 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
+    @ApiOperation(value = "모든 회원 조회", notes = "성공시 모든 회원 리스트를 반환합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "모든 회원 조회 성공"),
+            @ApiResponse(code = 500, message = "내부 서버 에러")
+    })
     @Auth
     @GetMapping("")
     public ResponseEntity getUser(
@@ -48,6 +58,16 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "회원 가입")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "part", value = "파트", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "회원 가입 성공"),
+            @ApiResponse(code = 500, message = "내부 서버 에러")
+    })
     @PostMapping("")
     public ResponseEntity signUp(SignUpReq signUpReq, @RequestPart(value = "profile", required = false) final MultipartFile profile) {
         log.error("signUp 함수 진입");
@@ -73,9 +93,14 @@ public class UserController {
      * @param signUpReq 수정할 회원 정보 객체
      * @return
      */
+    @ApiOperation(value = "회원 정보 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "회원 정보 수정 성공"),
+            @ApiResponse(code = 500, message = "내부 서버 에러")
+    })
     @Auth
     @PutMapping("/{userIdx}")
-    public ResponseEntity signUp(
+    public ResponseEntity update(
             @PathVariable(value = "userIdx") final int userIdx,
             SignUpReq signUpReq,
             @RequestPart(value = "profile", required = false) final MultipartFile profile) {
@@ -94,6 +119,11 @@ public class UserController {
      * @param userIdx 회원 고유 번호
      * @return ResponseEntity
      */
+    @ApiOperation(value = "회원 삭제")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "회원 삭제 성공"),
+            @ApiResponse(code = 500, message = "내부 서버 에러")
+    })
     @Auth
     @DeleteMapping("/{userIdx}")
     public ResponseEntity deleteUser(@PathVariable("userIdx") final int userIdx) {

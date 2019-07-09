@@ -5,15 +5,18 @@ import com.hyeran.seminar4.model.LoginReq;
 import com.hyeran.seminar4.service.AuthService;
 import com.hyeran.seminar4.utils.ResponseMessage;
 import com.hyeran.seminar4.utils.StatusCode;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping("/api/login")
 public class LoginController {
 
     private static final DefaultRes FAIL_DEFAULT_RES = new DefaultRes(StatusCode.INTERNAL_SERVER_ERROR, ResponseMessage.INTERNAL_SERVER_ERROR);
@@ -30,7 +33,16 @@ public class LoginController {
      * @param loginReq 로그인 객체
      * @return ResponseEntity
      */
-    @PostMapping("login")
+    @ApiOperation(value = "로그인", notes = "성공시 jwt 토큰을 헤더에 넣어서 반환합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query", defaultValue = "")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "로그인 성공"),
+            @ApiResponse(code = 500, message = "내부 서버 에러")
+    })
+    @PostMapping("")
     public ResponseEntity login(@RequestBody final LoginReq loginReq) {
         try {
             return new ResponseEntity<>(authService.login(loginReq), HttpStatus.OK);
