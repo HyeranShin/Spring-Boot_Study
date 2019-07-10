@@ -60,9 +60,9 @@ public class UserController {
 
     @ApiOperation(value = "회원 가입")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query", defaultValue = ""),
-            @ApiImplicitParam(name = "part", value = "파트", required = true, dataType = "string", paramType = "query", defaultValue = ""),
-            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "part", value = "파트", required = true, dataType = "string", paramType = "query", defaultValue = "서버"),
+            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "회원 가입 성공"),
