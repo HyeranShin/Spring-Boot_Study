@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static com.hyeran.seminar4.model.DefaultRes.FAIL_DEFAULT_RES;
 
+@Api(description = "회원 REST API")
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
@@ -60,9 +61,9 @@ public class UserController {
 
     @ApiOperation(value = "회원 가입")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "이름", required = true, dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "part", value = "파트", required = true, dataType = "string", paramType = "query", defaultValue = "서버"),
-            @ApiImplicitParam(name = "password", value = "비밀번호", required = true, dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "이름", required = true),
+            @ApiImplicitParam(name = "part", value = "파트", required = true, defaultValue = "서버"),
+            @ApiImplicitParam(name = "password", value = "비밀번호", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "회원 가입 성공"),

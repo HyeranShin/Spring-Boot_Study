@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(description = "로그인 REST API")
 @Slf4j
 @RestController
 @RequestMapping("/api/login")
